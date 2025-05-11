@@ -30,19 +30,48 @@ void put(DynamicArray *pDA, int elem) {
     pDA->pArray[pDA->size++] = elem;
 }
 
+void removeByIndex(DynamicArray *pDA, int index) {
+    if (pDA->size == 0 || index < 0 || pDA->size <= index) return;
+    int newCap = (pDA->capacity) - 1;
+    int *pNewArr = malloc(newCap * sizeof(int));
+    if (!pNewArr) return;
+    int j = 0;
+    for (int i = 0; i < pDA->size; ++i) {
+        if (i == index) {
+            continue;
+        }
+        pNewArr[j++] = pDA->pArray[i];
+    }
+    free(pDA->pArray);
+    pDA->pArray = pNewArr;
+    pDA->capacity = newCap;
+    pDA->size--;
+}
+
+void printArray(DynamicArray *pDA) {
+    printf("\n[");
+    for (int i = 0; i < pDA->size; ++i) {
+        if (i > 0) printf(", ");
+        printf("%d", pDA->pArray[i]);
+    }
+    printf("]");
+}
+
 int main(void) {
     DynamicArray *pDA = createDynamicArray(2);
-    printf("%d, %d, %p", pDA->size, pDA->capacity, pDA->pArray);
+    printf("Elements: %d,  Capacity:  %d, Address:  %p", pDA->size, pDA->capacity, pDA->pArray);
 
     put(pDA, 15);
+    printArray(pDA);
     put(pDA, 30);
     put(pDA, 45);
-    put(pDA, 45);
-    put(pDA, 45);
-    put(pDA, 45);
-    put(pDA, 45);
+    printArray(pDA);
 
-    printf("\n%d, %d, %p", pDA->size, pDA->capacity, pDA->pArray);
+    printf("\nElements: %d,  Capacity:  %d, Address:  %p", pDA->size, pDA->capacity, pDA->pArray);
+
+    removeByIndex(pDA, 1);
+    printArray(pDA);
+    printf("\nElements: %d,  Capacity:  %d, Address:  %p", pDA->size, pDA->capacity, pDA->pArray);
 
     free(pDA->pArray);
     free(pDA);
