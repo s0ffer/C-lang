@@ -6,6 +6,8 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
+int len(Node* node);
+
 Node* createNode(int data) {
     Node* node = (Node*)malloc(sizeof(Node));
     node->data = data;
@@ -27,6 +29,36 @@ void insertAtTail(Node* head, int data) {
     temp->next = createNode(data);;
 }
 
+int insertAtIndex(Node** head, int index, int data) {
+    int lengthList = len(*head);
+
+    if (index > lengthList) return 1;
+
+    if (index == lengthList) {
+        insertAtTail(*head, data);
+        return 0;
+    }
+
+    if (index == 0) {
+        insertAtHead(head, data);
+        return 0;
+    }
+
+    int i = 0;
+    Node* current = *head;
+    while (current != NULL) {
+        if (i == index-1) {
+            Node* newNode = createNode(data);
+            newNode->next = current->next;
+            current->next = newNode;
+            return 0;
+        }
+        current = current->next;
+        i++;
+    }
+    return 1;
+}
+
 Node* search(Node* head, int data) {
     Node* temp = head;
     while (temp != NULL) {
@@ -40,7 +72,7 @@ Node* search(Node* head, int data) {
     return NULL;
 }
 
-int length(Node* head) {
+int len(Node* head) {
     Node* temp = head;
     int count = 0;
     while (temp != NULL) {
@@ -80,7 +112,17 @@ int main(void) {
 
     search(head, 888);
 
-    printf("\nLength of list is: %d", length(head));
+    printf("\nLength of list is: %d\n", len(head));
+
+    printList(head);
+    printf("\n");
+    insertAtIndex(&head, 2, 666);
+    insertAtIndex(&head, 4, 444);
+    insertAtIndex(&head, 7, 652);
+    printf("\n");
+    printList(head);
+
+    printf("\n");
 
     freeList(head);
     // free(head);
