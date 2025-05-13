@@ -72,6 +72,28 @@ Node* search(Node* head, int data) {
     return NULL;
 }
 
+int removeByValue(Node** head, int value) {
+    if (head == NULL) return 0;
+
+    Node* prev = NULL;
+    Node* current = *head;
+    while (current != NULL) {
+        if (current->data == value) {
+            if (current == *head) {
+                *head = current->next;
+            } else {
+                prev->next = current->next;
+            }
+            free(current);
+            return 0;
+        }
+        prev = current;
+        current = current->next;
+    }
+    return 1;
+}
+
+
 int len(Node* head) {
     Node* temp = head;
     int count = 0;
@@ -110,19 +132,25 @@ int main(void) {
     insertAtTail(head, 321);
     printList(head);
 
-    search(head, 888);
+    // search(head, 888);
+    //
+    // printf("\nLength of list is: %d\n", len(head));
+    //
+    // printList(head);
+    // printf("\n");
+    // insertAtIndex(&head, 2, 666);
+    // insertAtIndex(&head, 4, 444);
+    // insertAtIndex(&head, 7, 652);
+    // printf("\n");
+    // printList(head);
 
-    printf("\nLength of list is: %d\n", len(head));
+    printf("\n");
 
+    // removeByValue(&head, 888);
+    // removeByValue(&head, 777);
+    removeByValue(&head, 555);
     printList(head);
-    printf("\n");
-    insertAtIndex(&head, 2, 666);
-    insertAtIndex(&head, 4, 444);
-    insertAtIndex(&head, 7, 652);
-    printf("\n");
-    printList(head);
-
-    printf("\n");
+    printf("\n__________________");
 
     freeList(head);
     // free(head);
