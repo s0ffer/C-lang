@@ -5,4 +5,6 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(C
 #        dynamicArray.c
-        linked_list.c)
+#        linked_list.c
+        doubleLinkedList.c
+)
